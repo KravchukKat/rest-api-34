@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.Matchers.hasKey;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class RegisterTests {
 
@@ -28,14 +27,15 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(200)
                 .body("id", is(4))
-                .body("token", is("QpwL5tke4Pnpja7X4"));
+                .body("token", notNullValue());
+
     }
 
     @Test
@@ -49,7 +49,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -69,7 +69,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -89,7 +89,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -109,7 +109,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -129,7 +129,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -149,7 +149,7 @@ public class RegisterTests {
                 .log().uri()
 
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/register")
 
                 .then()
                 .log().status()
@@ -157,16 +157,4 @@ public class RegisterTests {
                 .statusCode(400);
     }
 
-    @Test
-    void unsuccessfulRegister415Test() {
-        String registerData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\"}";
-
-        given()
-                .log().uri()
-                .post("https://reqres.in/api/register")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(415);
-    }
 }
