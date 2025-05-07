@@ -114,7 +114,7 @@ public class RegisterSpecModelTests {
     }
 
     @Test
-    @DisplayName("Проверка неуспешной авторизации. Невалидный пароль")
+    @DisplayName("Проверка успешной авторизации. Невалидный пароль")
     void errorPasswordTest() {
 
         SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
