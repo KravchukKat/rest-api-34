@@ -1,3 +1,5 @@
+package tests;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -6,7 +8,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 
-public class RegisterTests {
+public class RegisterTest {
 
     String apiKey = "reqres-free-v1";
 
