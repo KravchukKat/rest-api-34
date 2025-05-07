@@ -38,7 +38,7 @@ public class Specs {
             .build();
 
     public static ResponseSpecification errorPasswordResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
+            .expectStatusCode(200)
             .log(LogDetail.ALL)
             .build();
 

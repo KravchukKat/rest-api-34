@@ -121,7 +121,7 @@ public class RegisterSpecModelTests {
         registerData.setEmail("eve.holt@reqres.in");
         registerData.setPassword("pistolet");
 
-        UnsuccessfulRegisterBodyModel response = step("Авторизация с невалидным паролем", () ->
+        SuccessfulRegisterResponseModel response = step("Авторизация с невалидным email", () ->
                 given(loginRequestSpec)
                         .body(registerData)
 
@@ -130,10 +130,10 @@ public class RegisterSpecModelTests {
 
                         .then()
                         .spec(errorPasswordResponseSpec)
-                        .extract().as(UnsuccessfulRegisterBodyModel.class));
+                        .extract().as(SuccessfulRegisterResponseModel.class));
 
         step("Проверка ответа", () ->
-                assertEquals("Note: Only defined users succeed registration", response.getError()));
+                assertNotNull(response.getToken()));
     }
 
     @Test

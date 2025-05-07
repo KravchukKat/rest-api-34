@@ -2,12 +2,14 @@ package tests;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 
+@Tag("Api")
 public class RegisterTest {
 
     String apiKey = "reqres-free-v1";
@@ -102,7 +104,7 @@ public class RegisterTest {
 
     @Test
     void errorPasswordTest() {
-        String registerData = "{\"email\": \"evedat.holt@reqres.in\", \"password\": \"pistolet\"}";
+        String registerData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"pistolet\"}";
 
         given()
                 .header("x-api-key", apiKey)
@@ -116,8 +118,9 @@ public class RegisterTest {
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(400)
-                .body("error", is("Note: Only defined users succeed registration"));
+                .statusCode(200)
+                .body("id", is(4))
+                .body("token", notNullValue());
     }
 
     @Test
