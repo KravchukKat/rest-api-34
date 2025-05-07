@@ -7,6 +7,7 @@ import models.SuccessfulRegisterResponseModel;
 import models.UnsuccessfulRegisterBodyModel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static specs.Specs.*;
 
+
+@Tag("Api")
 public class RegisterSpecModelTests {
 
     @BeforeAll

@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 
-@Tag("Api")
+
 public class RegisterTest {
 
     String apiKey = "reqres-free-v1";
