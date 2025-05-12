@@ -1,12 +1,12 @@
 package specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.filter.log.LogDetail;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
+import static io.restassured.filter.log.LogDetail.ALL;
 import static io.restassured.http.ContentType.JSON;
 
 public class Specs {
@@ -17,33 +17,14 @@ public class Specs {
             .contentType(JSON)
             .header("x-api-key", "reqres-free-v1");
 
-    public static ResponseSpecification loginResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
-            .log(LogDetail.ALL)
+    public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
+            .log(ALL)
             .build();
 
-    public static ResponseSpecification errorResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.ALL)
-            .build();
-
-    public static ResponseSpecification errorUserResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.ALL)
-            .build();
-
-    public static ResponseSpecification missingEmailResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.ALL)
-            .build();
-
-    public static ResponseSpecification errorPasswordResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
-            .log(LogDetail.ALL)
-            .build();
-
-    public static ResponseSpecification missingPasswordResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.ALL)
-            .build();
+    public static ResponseSpecification getResponseSpecification(int statusCode) {
+        return new ResponseSpecBuilder()
+                .log(ALL)
+                .expectStatusCode(statusCode)
+                .build();
+    }
 }

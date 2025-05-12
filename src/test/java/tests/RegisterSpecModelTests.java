@@ -24,16 +24,13 @@ public class RegisterSpecModelTests {
     static void setupEnvironment() {
         RestAssured.baseURI = "https://reqres.in";
         RestAssured.basePath = "/api";
-        Configuration.remote = System.getProperty("browserRemote", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
     }
 
     @Test
     @DisplayName("Проверка успешной авторизации и получения токена")
     void successfulRegisterTest() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
-        registerData.setEmail("eve.holt@reqres.in");
-        registerData.setPassword("pistol");
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("eve.holt@reqres.in", "pistol");
 
         SuccessfulRegisterResponseModel response = step("Успешный регистрационный тест", () ->
                 given(loginRequestSpec)
@@ -43,7 +40,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(loginResponseSpec)
+                        .spec(getResponseSpecification(200))
                         .extract().as(SuccessfulRegisterResponseModel.class));
 
         step("Проверка ответа", () ->
@@ -54,7 +51,7 @@ public class RegisterSpecModelTests {
     @DisplayName("Проверка неуспешной авторизации. Отсутствует email и пароль")
     void unsuccessfulRegister400Test() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("", "");
 
         UnsuccessfulRegisterBodyModel response = step("Неуспешный регистрационный тест", () ->
                 given(loginRequestSpec)
@@ -64,7 +61,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(errorResponseSpec)
+                        .spec(getResponseSpecification(400))
                         .extract().as(UnsuccessfulRegisterBodyModel.class));
 
         step("Проверка ответа", () ->
@@ -75,9 +72,7 @@ public class RegisterSpecModelTests {
     @DisplayName("Проверка неуспешной авторизации. Невалидный email")
     void errorUserNotFoundTest() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
-        registerData.setEmail("evedat.holt@reqres.in");
-        registerData.setPassword("pistol");
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("evedat.holt55@reqres.in", "pistol");
 
         UnsuccessfulRegisterBodyModel response = step("Авторизация с невалидным email", () ->
                 given(loginRequestSpec)
@@ -87,7 +82,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(errorUserResponseSpec)
+                        .spec(getResponseSpecification(400))
                         .extract().as(UnsuccessfulRegisterBodyModel.class));
 
         step("Проверка ответа", () ->
@@ -98,8 +93,7 @@ public class RegisterSpecModelTests {
     @DisplayName("Проверка неуспешной авторизации. Отсутствует email")
     void missingEmailTest() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
-        registerData.setPassword("pistol");
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("", "pistol");
 
         UnsuccessfulRegisterBodyModel response = step("Авторизация с пропущенным email", () ->
                 given(loginRequestSpec)
@@ -109,7 +103,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(missingEmailResponseSpec)
+                        .spec(getResponseSpecification(400))
                         .extract().as(UnsuccessfulRegisterBodyModel.class));
 
         step("Проверка ответа", () ->
@@ -120,9 +114,7 @@ public class RegisterSpecModelTests {
     @DisplayName("Проверка успешной авторизации. Невалидный пароль")
     void errorPasswordTest() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
-        registerData.setEmail("eve.holt@reqres.in");
-        registerData.setPassword("pistolet");
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("eve.holt@reqres.in", "pistolet");
 
         SuccessfulRegisterResponseModel response = step("Авторизация с невалидным email", () ->
                 given(loginRequestSpec)
@@ -132,7 +124,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(errorPasswordResponseSpec)
+                        .spec(getResponseSpecification(200))
                         .extract().as(SuccessfulRegisterResponseModel.class));
 
         step("Проверка ответа", () ->
@@ -143,8 +135,7 @@ public class RegisterSpecModelTests {
     @DisplayName("Проверка неуспешной авторизации. Отсутствует пароль")
     void missingPasswordTest() {
 
-        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel();
-        registerData.setEmail("eve.holt@reqres.in");
+        SuccessfulRegisterBodyModel registerData = new SuccessfulRegisterBodyModel("holt55@reqres.in", "");
 
         UnsuccessfulRegisterBodyModel response = step("Авторизация с пропущенным паролем", () ->
                 given(loginRequestSpec)
@@ -154,7 +145,7 @@ public class RegisterSpecModelTests {
                         .post("/register")
 
                         .then()
-                        .spec(missingPasswordResponseSpec)
+                        .spec(getResponseSpecification(400))
                         .extract().as(UnsuccessfulRegisterBodyModel.class));
 
         step("Проверка ответа", () ->
